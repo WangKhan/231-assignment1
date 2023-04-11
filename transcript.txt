@@ -1,0 +1,142 @@
+1. 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg.snek
+(neg 100)
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  make test/neg.run
+cargo run -- test/neg.snek test/neg.s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+     Running `target/debug/adder test/neg.snek test/neg.s`
+nasm -f macho64 test/neg.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg.run 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg.s   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 100
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+  ret
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  test/neg.run  
+-100
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  
+
+2.
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg1.snek
+(neg (sub1 (sub1 (add1 73))))%                                                                                                                                                                                                                                          
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  make test/neg1.run
+cargo run -- test/neg1.snek test/neg1.s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/adder test/neg1.snek test/neg1.s`
+nasm -f macho64 test/neg1.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg1.run 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg1.s   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 73
+add rax, 1
+sub rax, 1
+sub rax, 1
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+  ret
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  test/neg1.run     
+-72
+
+3.
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg2.snek
+(neg (neg (sub1 (sub1 (add1 73)))))%                                                                                                                                                                                                                                    
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  make test/neg2.run
+cargo run -- test/neg2.snek test/neg2.s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/adder test/neg2.snek test/neg2.s`
+nasm -f macho64 test/neg2.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg2.run 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg2.s   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 73
+add rax, 1
+sub rax, 1
+sub rax, 1
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+  ret
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  test/neg2.run     
+72
+
+4.
+khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg3.snek
+(neg (neg (sub1 (sub1 (add1 (neg 73))))))%                                                                                                                                                                                                                              
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  make test/neg3.run
+cargo run -- test/neg3.snek test/neg3.s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/debug/adder test/neg3.snek test/neg3.s`
+nasm -f macho64 test/neg3.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg3.run 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg3.s   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 73
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+add rax, 1
+sub rax, 1
+sub rax, 1
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+  ret
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  test/neg3.run     
+-74
+
+5.
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg4.snek
+(neg (neg (sub1 (sub1 (add1 (neg -73))))))%                                                                                                                                                                                                                             
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  make test/neg4.run
+cargo run -- test/neg4.snek test/neg4.s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+     Running `target/debug/adder test/neg4.snek test/neg4.s`
+nasm -f macho64 test/neg4.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg4.run 
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  cat test/neg4.s   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, -73
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+add rax, 1
+sub rax, 1
+sub rax, 1
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+mov rbx, rax 
+mov rax, 0 
+sub rax, rbx
+  ret
+ khanwang@khanWangdeMacBook-Pro  ~/Documents/23spring/231/adder   master  test/neg4.run     
+72
