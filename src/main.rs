@@ -36,6 +36,7 @@ fn main() -> std::io::Result<()> {
     let mut in_contents = String::new();
     in_file.read_to_string(&mut in_contents)?;
 
+    
     let expr = parse_expr(&parse(&in_contents).unwrap());
     let result = compile_expr(&expr);
     let asm_program = format!("
